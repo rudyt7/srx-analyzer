@@ -1,0 +1,43 @@
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 1000px;
+
+  box-shadow: 0px 8px 30px -5px #ececec;
+  border-radius: 25px;
+
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.filters h3 {
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+
+.filters__select {
+  /* width: 210px !important; */
+}
+
+.filters .chakra-form-control {
+  width: 200px;
+}
+
+.filters__date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.filters__date_cont {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 20px 0 20px;
+}

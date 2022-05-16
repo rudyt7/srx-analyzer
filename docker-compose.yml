@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: srx-analyzer-backend
+      dockerfile: dockerfile
+    image: node-app
+    container_name: node-app-server
+    command: /usr/src/app/node_modules/.bin/nodemon app.js
+    volumes:
+      - ./srx-analyzer-backend/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+  client:
+    build:
+      context: srx-analyzer-frontend
+      dockerfile: dockerfile
+    image: react-app
+    container_name: react-app-client
+    command: npm start
+    volumes:
+      - ./srx-analyzer-frontend/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local

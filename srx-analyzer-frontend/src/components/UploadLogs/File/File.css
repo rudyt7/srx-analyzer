@@ -1,0 +1,45 @@
+.file__upload {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+.file__upload-text {
+  margin-top: 10px;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.file__upload--buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file__upload--buttons button {
+  margin: 10px;
+  margin-bottom: 30px;
+}
+
+.file__upload-uploader {
+  border: 2px #805ad5 dashed;
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 200;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.txt-area {
+  height: 400px;
+  width: 960px;
+  border: 0px;
+  padding: 20px;
+  /* box-shadow: 1px 1px 20px #777 ; */
+  /* border-radius: 20px; */
+  outline: none;
+  resize: none;
+}

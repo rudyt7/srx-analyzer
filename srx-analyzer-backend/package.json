@@ -1,0 +1,26 @@
+{
+  "name": "srx-analyzer-backend",
+  "version": "1.0.0",
+  "description": "Backend API for SRX-Analyzer",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "jest --watchAll --verbose --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.phonepe.com/rudransh.intern/srx-analyzer-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "multer": "^1.4.4",
+    "winston": "^3.7.2"
+  },
+  "devDependencies": {
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.16"
+  }
+}

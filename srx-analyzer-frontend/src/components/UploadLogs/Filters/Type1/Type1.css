@@ -1,0 +1,38 @@
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  box-shadow: 0px 8px 30px -5px #ececec;
+  border-radius: 25px;
+
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.filters label {
+}
+
+.filters h3 {
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+  font-weight: 400;
+}
+
+.filters__cont {
+  display: flex !important;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.filters__cont-1 {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.filters__cont-2 {
+  display: flex;
+}

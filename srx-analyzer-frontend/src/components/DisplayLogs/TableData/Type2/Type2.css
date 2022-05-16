@@ -1,0 +1,15 @@
+.table__logs-1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-gap: 1rem;
+}
+
+.table__logs-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.type2__tables {
+  width: 95vw;
+}
