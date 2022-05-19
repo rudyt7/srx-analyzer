@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+const cors = require("cors");
 
 const defaultRoutes = require("./routes/defaultRoutes");
 const logger = require("./logger");
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use(cors());
 
 const fileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
