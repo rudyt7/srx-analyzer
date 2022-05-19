@@ -12,7 +12,7 @@ const TableData = () => {
   return (
     <article className="table__logs">
       {fileContext.type === "TYPE_1" && <Type1 />}
-      {fileContext.type === "TYPE_2" && <Type2 />}
+      {fileContext.type === "TYPE_2" && fileContext.sessionLoaded && <Type2 />}
     </article>
   );
 };

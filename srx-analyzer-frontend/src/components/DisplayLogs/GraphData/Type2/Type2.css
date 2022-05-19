@@ -1,0 +1,20 @@
+.graph__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.graph__container-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.graph__container-sub {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}

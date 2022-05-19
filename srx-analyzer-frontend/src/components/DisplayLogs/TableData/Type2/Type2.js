@@ -48,7 +48,7 @@ const getTableData = (array, caption, header1, header2) => {
 const Type2 = () => {
   const file = useContext(FileContext);
 
-  console.log(file.logs);
+  // console.log(file.logs);
 
   let sourceIPJSX;
   let destinationIPJSX;

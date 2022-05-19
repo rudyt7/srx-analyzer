@@ -17,6 +17,8 @@ exports.getFilteredData = (req, res, next) => {
   const byteClientList = [];
   const byteServerList = [];
 
+  const graphData = [];
+
   let source_ips = 0;
   let dest_ips = 0;
   let dest_ports = 0;
@@ -28,17 +30,21 @@ exports.getFilteredData = (req, res, next) => {
   let interfaces = 0;
 
   const filters = JSON.parse(req.body.filters);
-  let numberOfData = JSON.parse(req.body.numberOfData);
+  let numberOfData;
   const filePath = JSON.parse(req.body.fullPath);
 
   logger.info(filters);
 
   let startDate;
   let endDate;
+
   if (filters.dateInterval.start && filters.dateInterval.end) {
     startDate = new Date(filters.dateInterval.start);
     endDate = new Date(filters.dateInterval.end);
     numberOfData = 0;
+    console.log(startDate, endDate);
+  } else {
+    numberOfData = JSON.parse(req.body.numberOfData);
   }
 
   fs.readFile(filePath.path, (err, data) => {
@@ -59,13 +65,13 @@ exports.getFilteredData = (req, res, next) => {
           .split(" ");
 
         const dateArr = line.split(":")[0].split(" ").slice(0, 3);
-        const entryDate = new Date(`${dateArr[0]} ${dateArr[2]} 2022`);
+        const entryDate = new Date(`${dateArr[0]} ${+dateArr[2] + 1} 2022`);
+        console.log(entryDate);
 
         const [sourceIp, sourcePort] = denyData[1].split("/");
         const [destinationIp, destinationPort] = denyData[2].split("/");
 
         if (startDate && endDate) {
-          console.log(startDate < entryDate, entryDate < endDate);
           if (startDate < entryDate && entryDate < endDate) {
             numberOfData++;
             sourceIpList.push(sourceIp);
@@ -177,6 +183,20 @@ exports.getFilteredData = (req, res, next) => {
         const [sourceIp, sourcePort] = closeData[1].split("/");
         const [destinationIp, destinationPort] = closeData[2].split("/");
 
+        const bytesServer = closeData[13].split("(")[1].split(")")[0];
+        const bytesClient = closeData[12].split("(")[1].split(")")[0];
+
+        const packetClient = closeData[12].split("(")[0];
+        const packetServer = closeData[13].split("(")[0];
+
+        graphData.push([
+          entryDate,
+          bytesClient,
+          bytesServer,
+          packetClient,
+          packetServer,
+        ]);
+
         if (startDate && endDate) {
           if (startDate < entryDate && entryDate < endDate) {
             numberOfData++;
@@ -197,7 +217,7 @@ exports.getFilteredData = (req, res, next) => {
             destinationZoneList.push(closeData[10]);
             dest_zone++;
             byteClientList.push([
-              closeData[12].split("(")[1].split(")")[0],
+              bytesClient,
               sourceIpList.at(-1),
               srcPortList.at(-1),
               destinationIpList.at(-1),
@@ -205,7 +225,7 @@ exports.getFilteredData = (req, res, next) => {
             ]);
 
             byteServerList.push([
-              closeData[13].split("(")[1].split(")")[0],
+              bytesServer,
               destinationIpList.at(-1),
               destPortList.at(-1),
               sourceIpList.at(-1),
@@ -248,7 +268,6 @@ exports.getFilteredData = (req, res, next) => {
       }
     });
 
-    //
     const sourceIpSorted = Object.entries(
       utilFunctions.givePopulatedObject(sourceIpList)
     ).sort(([, a], [, b]) => b - a);
@@ -285,7 +304,7 @@ exports.getFilteredData = (req, res, next) => {
 
     const serverBytesSorted = byteServerList.sort(([a], [b]) => b - a);
 
-    console.log(sourceIpSorted, destinationIpSorted);
+    const mergedGraphObj = utilFunctions.giveSumObject(graphData);
 
     const responseObject = {};
 
@@ -349,7 +368,7 @@ exports.getFilteredData = (req, res, next) => {
       filters.serverBytes
     );
 
-    res.json({ ...responseObject, filePath });
+    res.json({ ...responseObject, filePath, mergedGraphObj });
     logger.info("response sent");
   });
 };

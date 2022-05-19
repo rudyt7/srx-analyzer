@@ -10,6 +10,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 
 import { FileContext } from "../../../context/FileContext";
@@ -18,6 +19,8 @@ import "./File.css";
 const File = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileContent, setFileContent] = useState(null);
+
+  const toast = useToast();
 
   const fileContext = useContext(FileContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,8 +34,22 @@ const File = (props) => {
 
         if (event.target.result.toString().includes("RT_FLOW")) {
           fileContext.setType("TYPE_2");
-        } else {
+        } else if (event.target.result.toString().includes("Session ID:")) {
           fileContext.setType("TYPE_1");
+        } else {
+          toast({
+            title: "Wrong File",
+            description: "Please Select a Correct File.",
+            position: "top",
+            status: "warning",
+            variant: "left-accent",
+            duration: 2000,
+            isClosable: true,
+          });
+          onFileChangedHandler(null);
+          setFileContent(null);
+          fileContext.setType(null);
+          return;
         }
       };
     }
@@ -56,16 +73,17 @@ const File = (props) => {
   };
 
   const uploadFileHanlder = () => {
-    console.log(selectedFile);
     props.uploadFileHanlder(selectedFile);
   };
 
   const deleteFileHandler = () => {
-    if (fileContext.fileName === "") {
+    if (fileContext.fileName === "" || fileContext.fileName === null) {
       onFileChangedHandler(null);
       setFileContent(null);
       fileContext.setType(null);
-      document.querySelector(".file__upload input").value = null;
+      if (document.querySelector(".file__upload input")) {
+        document.querySelector(".file__upload input").value = null;
+      }
       return;
     }
 
@@ -80,7 +98,9 @@ const File = (props) => {
         onFileChangedHandler(null);
         setFileContent(null);
         fileContext.setType(null);
-        document.querySelector(".file__upload input").value = null;
+        if (document.querySelector(".file__upload input")) {
+          document.querySelector(".file__upload input").value = null;
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -89,22 +109,24 @@ const File = (props) => {
 
   return (
     <Fragment>
-      <div className="file__upload">
-        <FileUploader
-          handleChange={onFileChangedHandler}
-          name="file"
-          types={["TXT", "LOG"]}
-        >
-          <p className="file__upload-uploader">
-            Click To Upload Or Drop Files Here
+      {!fileContext.fileName && (
+        <div className="file__upload">
+          <FileUploader
+            handleChange={onFileChangedHandler}
+            name="file"
+            types={["TXT"]}
+          >
+            <p className="file__upload-uploader">
+              Click To Load Files Or Drop Files Here
+            </p>
+          </FileUploader>
+          <p className="file__upload-text">
+            {selectedFile
+              ? `File name: ${selectedFile.name}`
+              : "No files Loaded yet"}
           </p>
-        </FileUploader>
-        <p className="file__upload-text">
-          {selectedFile
-            ? `File name: ${selectedFile.name}`
-            : "No files uploaded yet"}
-        </p>
-      </div>
+        </div>
+      )}
 
       <Modal isOpen={isOpen} onClose={onClose} size="5xl" isCentered>
         <ModalOverlay />
@@ -135,7 +157,7 @@ const File = (props) => {
           Preview File
         </Button>
         <Button colorScheme="purple" width="130px" onClick={uploadFileHanlder}>
-          Upload File
+          Get Results
         </Button>
         <Button colorScheme="purple" width="130px" onClick={deleteFileHandler}>
           Delete File

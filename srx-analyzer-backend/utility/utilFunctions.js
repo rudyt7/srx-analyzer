@@ -19,6 +19,44 @@ exports.giveSlicedData = (arr, number, filter) => {
   return [];
 };
 
+exports.giveSumObject = (arr) => {
+  let count = {};
+  let sumObject = {};
+
+  arr.forEach((element) => {
+    if (!count[element[0]]) {
+      count[element[0]] = {
+        bytes: [],
+        packets: [],
+      };
+    }
+
+    count[element[0]].bytes.push(+element[1]);
+    count[element[0]].bytes.push(+element[2]);
+    count[element[0]].packets.push(+element[3]);
+    count[element[0]].packets.push(+element[4]);
+  });
+
+  for (const [key, value] of Object.entries(count)) {
+    let packetsSum = 0,
+      bytesSum = 0;
+    for (const i of value.bytes) {
+      bytesSum += i;
+    }
+
+    for (const j of value.packets) {
+      packetsSum += j;
+    }
+
+    sumObject[key] = {
+      bytes: bytesSum,
+      packets: packetsSum,
+    };
+  }
+
+  return sumObject;
+};
+
 exports.mergeObject = (arr) => {
   const mergedObject = {};
   const countObj = {};

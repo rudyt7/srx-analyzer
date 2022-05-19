@@ -1,15 +1,19 @@
 import React, { Fragment, useContext } from "react";
 import {
-  AreaChart,
-  Area,
+  BarChart,
+  Bar,
+  Cell,
+  Brush,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
+  Legend,
   PieChart,
   Pie,
-  Legend,
+  ResponsiveContainer,
+  Line,
+  ComposedChart,
 } from "recharts";
 
 import { FileContext } from "../../../../context/FileContext";
@@ -17,8 +21,6 @@ import "./Type1.css";
 
 const Type1 = () => {
   const fileContext = useContext(FileContext);
-
-  console.log();
 
   const trafficData = [];
   const protocolData = [];
@@ -42,61 +44,53 @@ const Type1 = () => {
     protocolData.push(dataObj);
   }
 
-  console.log(protocolData);
-
   return (
     <div className="graph__container">
       <div className="graph__container-sub">
-        <AreaChart
+        <ComposedChart
           width={900}
           height={450}
           data={trafficData}
           margin={{
-            top: 10,
+            top: 5,
             right: 30,
-            left: 0,
-            bottom: 0,
+            left: 20,
+            bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Area
-            type="monotone"
-            dataKey="totalPackets"
-            stackId="1"
-            stroke="#82ca9d"
-            fill="#82ca9d"
-          />
-        </AreaChart>
+          <Legend />
+          <Bar dataKey="totalBytes" fill="#ffc658" />
+          <Line type="monotone" dataKey="totalBytes" stroke="#8884d8" />
+          <Brush dataKey="name" height={30} stroke="#ffc658" />
+        </ComposedChart>
         <h3>Total traffic in Packets</h3>
       </div>
       <div className="graph__container-2">
         <div className="graph__container-sub">
-          <AreaChart
+          <ComposedChart
             width={900}
             height={450}
             data={trafficData}
             margin={{
-              top: 10,
+              top: 5,
               right: 30,
-              left: 0,
-              bottom: 0,
+              left: 20,
+              bottom: 5,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="totalBytes"
-              stackId="1"
-              stroke="#ffc658"
-              fill="#ffc658"
-            />
-          </AreaChart>
+            <Legend />
+            <Bar dataKey="totalPackets" fill="#82ca9d" />
+            <Line type="monotone" dataKey="totalPackets" stroke="#8884d8" />
+            <Brush dataKey="name" height={30} stroke="#82ca9d" />
+          </ComposedChart>
           <h3>Total traffic in Bytes</h3>
         </div>
         {fileContext.logs.protocolSorted.length > 0 && (
@@ -107,8 +101,9 @@ const Type1 = () => {
                 data={protocolData}
                 cx="50%"
                 cy="50%"
+                innerRadius={40}
                 outerRadius={80}
-                fill="#8884d8"
+                fill="#007FFF"
                 label
               />
               <Tooltip />

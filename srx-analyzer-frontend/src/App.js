@@ -10,6 +10,8 @@ function App() {
   const [file, setfile] = useState("");
   const [logs, setLogs] = useState("");
   const [type, setType] = useState("");
+  const [sessionType, setSessionType] = useState("");
+  const [sessionLoaded, setSessionLoaded] = useState(false);
 
   const setFileHandler = (file) => {
     setfile(file);
@@ -21,6 +23,14 @@ function App() {
 
   const setTypeHandler = (type) => {
     setType(type);
+  };
+
+  const setSessionTypeHandler = (sessionType) => {
+    setSessionType(sessionType);
+  };
+
+  const setSessionLoadedHandler = (sessionStatus) => {
+    setSessionLoaded(sessionStatus);
   };
 
   const appJSX = (
@@ -39,9 +49,13 @@ function App() {
         fileName: file,
         logs: logs,
         type: type,
+        sessionType: sessionType,
+        sessionLoaded: sessionLoaded,
         setFile: setFileHandler,
         setLogs: setLogsHandler,
         setType: setTypeHandler,
+        setSessionType: setSessionTypeHandler,
+        setSessionLoaded: setSessionLoadedHandler,
       }}
     >
       {appJSX}

@@ -1,11 +1,14 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useContext } from "react";
 import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 
+import { FileContext } from "../../../../context/FileContext";
 import Filter from "../Filter/Filter";
 
 import "./Type2.css";
 
 const Type2 = (props) => {
+  const fileContext = useContext(FileContext);
+
   const [souceIpFilterValue, setSouceIpFilterValue] = useState(false);
   const [destinationIpFilterValue, setDestinationIpFilterValue] =
     useState(false);
@@ -24,7 +27,6 @@ const Type2 = (props) => {
   const [sessionChange, setSessionChange] = useState("");
 
   useEffect(() => {
-    console.log(dateInterval, sessionChange);
     props.setFilterObject({
       sourceIp: souceIpFilterValue,
       destinationIp: destinationIpFilterValue,
@@ -39,6 +41,9 @@ const Type2 = (props) => {
       dateInterval,
       sessionChange,
     });
+
+    fileContext.setSessionType(sessionChange);
+    fileContext.setSessionLoaded(false);
   }, [
     dateInterval,
     sessionChange,

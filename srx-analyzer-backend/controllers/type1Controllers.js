@@ -25,7 +25,6 @@ exports.getFilteredData = (req, res, next) => {
   let interfaces = 0;
 
   let session, ip, destIp, totalBytes, totalPackets;
-  let graphObj = {};
 
   const filters = JSON.parse(req.body.filters);
   const numberOfData = JSON.parse(req.body.numberOfData);
