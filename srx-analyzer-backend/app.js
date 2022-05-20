@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
 const fileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {

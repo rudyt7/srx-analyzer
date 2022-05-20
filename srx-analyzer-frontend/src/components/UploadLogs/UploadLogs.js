@@ -65,7 +65,7 @@ const UploadLogs = () => {
         return;
       }
 
-      fetch("http://localhost:8080", {
+      fetch("http://127.0.0.1:8080", {
         method: "POST",
         body: data,
       })
@@ -132,7 +132,7 @@ const UploadLogs = () => {
         return;
       }
 
-      fetch("http://localhost:8080/type2", {
+      fetch("http://127.0.0.1:8080/type2", {
         method: "POST",
         body: data,
       })

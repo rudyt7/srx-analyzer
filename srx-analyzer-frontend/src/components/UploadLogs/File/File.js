@@ -89,7 +89,7 @@ const File = (props) => {
 
     const data = new FormData();
     data.append("fullPath", JSON.stringify(fileContext.fileName));
-    fetch("http://localhost:8080", {
+    fetch("http://127.0.0.1:8080", {
       method: "DELETE",
       body: data,
     })
